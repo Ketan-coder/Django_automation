@@ -30,19 +30,15 @@ os.chdir('../'+project_name)
 # print the current directory
 print(os.getcwd())
 
-search_text = '\nINSTALLED_APPS = [\n"django.contrib.admin",\n"django.contrib.auth",\n"django.contrib.contenttypes",\n"django.contrib.sessions",\n"django.contrib.messages",\n"django.contrib.staticfiles"]\n'
+search_text = '\nINSTALLED_APPS = [\n   "django.contrib.admin",\n  "django.contrib.auth",\n  "django.contrib.contenttypes",\n  "django.contrib.sessions",\n  "django.contrib.messages",\n  "django.contrib.staticfiles",\n'
 for app in apps_name:
-    search_text += '"' + app.capitalize() + '.apps.' +  app.capitalize() +'Config",\n'
+    search_text += '    "' + app.capitalize() + '.apps.' +  app.capitalize() +'Config",\n'
 replace_text = search_text + ']\n'
 
 print(replace_text)
 # append the apps name to INSTALLED_APPS in settings.py
 with open(project_name + '/settings.py', 'r+') as file:
     content=file.read()
-    content.split(search_text)
-    new_file = content[0] + replace_text + content[1]
-    # content = content.replace(search_text, replace_text)
-    # for app in apps_name:
-    #     file.write('"' + app.capitalize() + '.apps.' +  app.capitalize() +'Config",\n')
+    new_file = '\n\n#----------------Replace INSTALLED_APPS with the below code----------------\/\n' + replace_text
     file.write(new_file)
     file.truncate()
