@@ -113,13 +113,12 @@ for sub_dir in sub_dirs:
     os.makedirs("static/vendors/" + sub_dir)
 
 with open("static/resoures/css/style.css", "w") as file:
-    file.writelines('*, \n*::before,\n*::after{\n   margin: 0;\n    padding: 0;\n box-sizing: inherit;\n}\n\nhtml{\n    font-size: 62.5%;\n\tbackground-color:pink;}\nbody{\n   font-family: "Lato", sans-serif;\n  font-weight: 400;\n line-height: 1.7;\n color: red;\n  padding: 3rem;\n   box-sizing: border-box;\n\tdisplay: grid;\n\talign-content: space-evenly;\n\tjustify-content: space-evenly;\n\talign-items: stretch;\n\tjustify-items: stretch;}\nh1{\n    font-size: 3.5rem;\n    font-weight: 900;\n   margin: 0 auto;\n}\n')
+    file.writelines('*, \n*::before,\n*::after{\n   margin: 0;\n    padding: 0;\n box-sizing: inherit;\n}\n\nhtml{\n    font-size: 62.5%;\n\tbackground-color:pink;}\nbody{\n   font-family: "Lato", sans-serif;\n  font-weight: 400;\n line-height: 1.7;\n color: red;\n  padding: 3rem;\n   box-sizing: border-box;\n\tdisplay: grid;\n\talign-content: space-evenly;\n\tjustify-content: space-evenly;\n\talign-items: stretch;\n\tjustify-items: stretch;}\nh1{\n    font-size: 3.5rem;\n    font-weight: 900;    color: black;\n   margin: 0 auto;\n}\n')
 
 with open("templates/base.html", "w") as file:
-    file.writelines('{% load static %}\n<html>\n\t<head>\n\t\t<title>Made with python</title>\n\t\t<link rel="stylesheet" href="{% static '"'resoures/css/style.css'"'%}">\n\t</head>\n\t<body>\n\t\t<h1>Hello World</h1>\n\t</body>\n</html>')
+    file.writelines('{% load static %}\n<html>\n\t<head>\n\t\t<title>Made with python</title>\n\t\t<link rel="stylesheet" href="{% static '"'resoures/css/style.css'"'%}">\n\t</head>\n\t<body>\n\t\t<h1>Hello World</h1>\n<h3>Do not close the terminal that is running development server(python manage.py runserver)</h3>\n\t</body>\n</html>')
 
-os.popen('Start cmd /k "python manage.py makemigrations"')
-time.sleep(2)
+print("Django project created successfully\n------------------------------------------------\nDo not close the terminal that is running development server(python manage.py runserver)\n------------------------------------------------\n")
 os.popen('Start cmd /k "python manage.py migrate"')
 time.sleep(3)
 os.popen('Start cmd /k "python manage.py runserver"')
