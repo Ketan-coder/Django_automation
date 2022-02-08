@@ -56,7 +56,7 @@ print(os.getcwd())
 for app_name in apps_name:
     with open(project_name + '/' + app_name.lower() + '/views.py', 'r+') as file:
         content=file.read()
-        new_file = 'def index(request):\n    return render("index.html")\n'
+        new_file = 'def index(request):\n    return render(request,"base.html")\n'
         file.write(new_file)
         file.truncate()
     with open(project_name + '/' + app_name.capitalize() + '/urls.py', 'w+') as file:
@@ -112,6 +112,17 @@ os.makedirs("static/resoures/css/" + sub_dirs[1])
 for sub_dir in sub_dirs:
     os.makedirs("static/vendors/" + sub_dir)
 
-os.system('cmd /k "python manage.py runserver"')
+with open("static/resoures/css/style.css", "w") as file:
+    file.writelines('*, \n*::before,\n*::after{\n   margin: 0;\n    padding: 0;\n box-sizing: inherit;\n}\n\nhtml{\n    font-size: 62.5%;\n\tbackground-color:pink;}\nbody{\n   font-family: "Lato", sans-serif;\n  font-weight: 400;\n line-height: 1.7;\n color: red;\n  padding: 3rem;\n   box-sizing: border-box;\n\tdisplay: grid;\n\talign-content: space-evenly;\n\tjustify-content: space-evenly;\n\talign-items: stretch;\n\tjustify-items: stretch;}\nh1{\n    font-size: 3.5rem;\n    font-weight: 900;\n   margin: 0 auto;\n}\n')
+
+with open("templates/base.html", "w") as file:
+    file.writelines('{% load static %}\n<html>\n\t<head>\n\t\t<title>Made with python</title>\n\t\t<link rel="stylesheet" href="{% static '"'resoures/css/style.css'"'%}">\n\t</head>\n\t<body>\n\t\t<h1>Hello World</h1>\n\t</body>\n</html>')
+
+os.popen('Start cmd /k "python manage.py makemigrations"')
+time.sleep(2)
+os.popen('Start cmd /k "python manage.py migrate"')
+time.sleep(3)
+os.popen('Start cmd /k "python manage.py runserver"')
 time.sleep(5)
 webbrowser.open_new_tab("http://127.0.0.1:8000/")
+os.chdir('../')
