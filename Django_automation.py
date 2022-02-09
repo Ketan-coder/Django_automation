@@ -1,4 +1,4 @@
-""" This python file helps me to make full flushed static and templates directories."""
+""" This python file helps to make full flushed Django Project, Django Apps, static and templates directories."""
 import os
 import webbrowser
 import time
@@ -11,7 +11,31 @@ apps_name = str(input("What your apps name : ")).split(",")
 # check if the project name is in the current directory
 if os.path.isdir(project_name):
     print("Project name is already in the current directory")
-    exit()
+    cmd_delete = str(input("Would you like to delete it? (y/n) : "))
+    if cmd_delete == "y":
+        os.system("rmdir /S " + project_name)
+        print("Project deleted!And New project is being created")
+        os.system('cmd /c "django-admin startproject ' + project_name)
+        # change the directory to the project name
+        os.chdir(project_name)
+        # print the current directory
+        print(os.getcwd())
+        if os.path.isdir(apps_name[0].capitalize()):
+            print("Apps name is already in the project directory")
+            exit()
+        else:
+            # check if apps_name has more than one app
+            if len(apps_name) > 1:
+                for app in apps_name:
+                    os.system('cmd /c "django-admin startapp ' + app.capitalize())
+            else:
+                os.system('cmd /c "django-admin startapp ' + apps_name[0].capitalize())
+    elif cmd_delete == "n":
+        print("Project not deleted!")
+        pass
+    else:
+        print("Wrong command!")
+        pass
 else:
     os.system('cmd /c "django-admin startproject ' + project_name)
     # change the directory to the project name
@@ -54,7 +78,7 @@ os.chdir('../')
 print(os.getcwd())
 
 for app_name in apps_name:
-    with open(project_name + '/' + app_name.lower() + '/views.py', 'r+') as file:
+    with open(project_name + '/' + app_name.capitalize() + '/views.py', 'r+') as file:
         content=file.read()
         new_file = 'def index(request):\n    return render(request,"base.html")\n'
         file.write(new_file)
@@ -120,8 +144,33 @@ with open("templates/base.html", "w") as file:
 
 print("Django project created successfully\n------------------------------------------------\nDo not close the terminal that is running development server(python manage.py runserver)\n------------------------------------------------\n")
 os.popen('Start cmd /k "python manage.py migrate"')
-time.sleep(3)
+time.sleep(5)
 os.popen('Start cmd /k "python manage.py runserver"')
 time.sleep(5)
 webbrowser.open_new_tab("http://127.0.0.1:8000/")
-os.chdir('../')
+
+while True:
+    for app_name in apps_name:
+        # os.chdir('../')
+        os.chdir('../'+project_name)
+        # Comparing models.py after certain interval of time
+        print("Looking for changes in " + app_name.capitalize() + " models.py\nPress 'CTRL + C' to stop the program")
+        with open(app_name.capitalize() + '/models.py', 'r+') as app_models_file:
+            app_models_content = app_models_file.read()
+        time.sleep(5)
+        with open(app_name.capitalize() + '/models.py', 'r+') as app_models_file_1:
+            app_models_content_1 = app_models_file_1.read()
+        if app_models_content == app_models_content_1:
+            pass
+        else:
+            print("You made a change in " + app_name.capitalize() + " models.py file.\n")
+            cmd = str(input("Did you want want to run the migration command?(y/n):"))
+            if cmd == 'y':
+                os.popen('Start cmd /k python manage.py makemigrations')
+                time.sleep(4)
+                os.popen('Start cmd /k "python manage.py migrate"')
+                time.sleep(4)
+            elif cmd == 'n':
+                pass
+            else:
+                print("Invalid input")
