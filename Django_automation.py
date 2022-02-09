@@ -153,13 +153,14 @@ while True:
     for app_name in apps_name:
         # os.chdir('../')
         os.chdir('../'+project_name)
-        # Comparing models.py after certain interval of time
+        # Capturing the two instances models.py after certain interval of time
         print("Looking for changes in " + app_name.capitalize() + " models.py\nPress 'CTRL + C' to stop the program")
         with open(app_name.capitalize() + '/models.py', 'r+') as app_models_file:
             app_models_content = app_models_file.read()
         time.sleep(5)
         with open(app_name.capitalize() + '/models.py', 'r+') as app_models_file_1:
             app_models_content_1 = app_models_file_1.read()
+        # Comparing models.py after certain interval of time
         if app_models_content == app_models_content_1:
             pass
         else:
