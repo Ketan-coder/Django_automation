@@ -18,8 +18,6 @@ if os.path.isdir(project_name):
         os.system('cmd /c "django-admin startproject ' + project_name)
         # change the directory to the project name
         os.chdir(project_name)
-        # print the current directory
-        print(os.getcwd())
         if os.path.isdir(apps_name[0].capitalize()):
             print("Apps name is already in the project directory")
             exit()
@@ -40,8 +38,6 @@ else:
     os.system('cmd /c "django-admin startproject ' + project_name)
     # change the directory to the project name
     os.chdir(project_name)
-    # print the current directory
-    print(os.getcwd())
     # check if the apps name is in the project directory
     if os.path.isdir(apps_name[0].capitalize()):
         print("Apps name is already in the project directory")
@@ -55,8 +51,6 @@ else:
             os.system('cmd /c "django-admin startapp ' + apps_name[0].capitalize())
 # change the directory to the project name
 os.chdir('../'+project_name)
-# print the current directory
-print(os.getcwd())
 
 search_text = '\nINSTALLED_APPS = [\n   "django.contrib.admin",\n  "django.contrib.auth",\n  "django.contrib.contenttypes",\n  "django.contrib.sessions",\n  "django.contrib.messages",\n  "django.contrib.staticfiles",\n'
 for app in apps_name:
@@ -74,8 +68,6 @@ with open(project_name + '/settings.py', 'r+') as file:
     file.truncate()
 
 os.chdir('../')
-# print the current directory
-print(os.getcwd())
 
 for app_name in apps_name:
     with open(project_name + '/' + app_name.capitalize() + '/views.py', 'r+') as file:
@@ -105,8 +97,6 @@ for app_name in apps_name:
         file.truncate()
 
 os.chdir(project_name)
-# print the current directory
-print(os.getcwd())
 # create the templates,static directory
 os.makedirs("templates")
 os.makedirs("static")
@@ -155,6 +145,7 @@ while True:
         os.chdir('../'+project_name)
         # Capturing the two instances models.py after certain interval of time
         print("Looking for changes in " + app_name.capitalize() + " models.py\nPress 'CTRL + C' to stop the program")
+        print("\nIf anything goes wrong, restart the development server\n")
         with open(app_name.capitalize() + '/models.py', 'r+') as app_models_file:
             app_models_content = app_models_file.read()
         time.sleep(5)
@@ -164,13 +155,14 @@ while True:
         if app_models_content == app_models_content_1:
             pass
         else:
-            print("You made a change in " + app_name.capitalize() + " models.py file.\n")
+            print("\nYou made a change in " + app_name.capitalize() + " models.py file.\n")
             cmd = str(input("Did you want want to run the migration command?(y/n):"))
             if cmd == 'y':
                 os.popen('Start cmd /k python manage.py makemigrations')
                 time.sleep(4)
                 os.popen('Start cmd /k "python manage.py migrate"')
                 time.sleep(4)
+                print("\nIf you add a new model Please register your models by adding the following line to your admin.py file:\n\nfrom django.contrib import admin\nfrom . import (Model Name)\nadmin.site.register(Model Name)\n")
             elif cmd == 'n':
                 pass
             else:
