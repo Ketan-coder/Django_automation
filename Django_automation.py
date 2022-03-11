@@ -1,11 +1,15 @@
 """ This python file helps to make full flushed Django Project, Django Apps, static and templates directories."""
 import os
+os.system('cmd /c pip install django webbrowser')
 import webbrowser
 import time
+from sys import platform
+
 
 print("Please do not use space in your project/app name at the end!")
 project_name = str(input("Whats your project name : ")).capitalize()
 apps_name = str(input("What your apps name : ")).split(",")
+want_env = str(input("Do you want to create a virtual environment? (y/n) : ")).capitalize()
 
 
 # check if the project name is in the current directory
@@ -26,6 +30,28 @@ if os.path.isdir(project_name):
             if len(apps_name) > 1:
                 for app in apps_name:
                     os.system('cmd /c "django-admin startapp ' + app.capitalize())
+                if want_env == "Y":
+                    os.system('cmd /c "pip install virtualenv"')
+                    os.system('cmd /c "virtualenv env"')
+                    os.chdir("env")
+                    os.chdir("Scripts")
+                    # Check the Operating system and start the virtualenv
+                    #------------Not working on Windows 10-------------
+                    if platform == "linux" or platform == "linux2":#Linux
+                        os.system('cmd /c "source activate"')
+                    elif platform == "darwin":#MAC OS
+                        os.system('cmd /c "source activate"')
+                    elif platform == "win32":#Windows
+                        os.system('cmd /c "activate.bat"')
+                    #--------------------------------------------------
+                    os.system('cmd /c "pip install django"')
+                    os.system('cmd /c "pip install Pillow"')
+                    os.chdir("../../")
+                elif want_env == "N":
+                    os.system('cmd /c "pip install django"')
+                    os.system('cmd /c "pip install Pillow"')
+                else:
+                    print("Worng Command",end="\n")
             else:
                 os.system('cmd /c "django-admin startapp ' + apps_name[0].capitalize())
     elif cmd_delete == "n":
@@ -47,6 +73,28 @@ else:
         if len(apps_name) > 1:
             for app in apps_name:
                 os.system('cmd /c "django-admin startapp ' + app.capitalize())
+                if want_env == "Y":
+                    os.system('cmd /c "pip install virtualenv"')
+                    os.system('cmd /c "virtualenv env"')
+                    os.chdir("env")
+                    os.chdir("Scripts")
+                    # Check the Operating system and start the virtualenv
+                    #------------Not working on Windows 10-------------
+                    if platform == "linux" or platform == "linux2":#Linux
+                        os.system('cmd /c "source activate"')
+                    elif platform == "darwin":#MAC OS
+                        os.system('cmd /c "source activate"')
+                    elif platform == "win32":#Windows
+                        os.system('cmd /c "activate.bat"')
+                    #--------------------------------------------------
+                    os.system('cmd /c "pip install django"')
+                    os.system('cmd /c "pip install Pillow"')
+                    os.chdir("../../")
+                elif want_env == "N":
+                    os.system('cmd /c "pip install django"')
+                    os.system('cmd /c "pip install Pillow"')
+                else:
+                    print("Worng Command",end="\n")
         else:
             os.system('cmd /c "django-admin startapp ' + apps_name[0].capitalize())
 # change the directory to the project name
@@ -143,6 +191,9 @@ while True:
     for app_name in apps_name:
         # os.chdir('../')
         os.chdir('../'+project_name)
+        # if KeyboardInterrupt:
+        #     break
+        # else:
         # Capturing the two instances models.py after certain interval of time
         print("Looking for changes in " + app_name.capitalize() + " models.py\nPress 'CTRL + C' to stop the program")
         print("\nIf anything goes wrong, restart the development server\n")
