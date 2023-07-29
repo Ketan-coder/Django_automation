@@ -1,7 +1,7 @@
 """ This python file helps to make full flushed Django Project, Django Apps, static and templates directories."""
 choice = int(input("1 -> Creating a new project\n2 -> Looking for changes in models.py\n"))
 import os
-os.system('cmd /c pip install django webbrowser')
+os.system('cmd /c python -m pip install django webbrowser')
 import webbrowser
 import time
 from sys import platform
@@ -184,10 +184,17 @@ if choice == 1:
     print("Django project created successfully\n------------------------------------------------\nDo not close the terminal that is running development server(python manage.py runserver)\n------------------------------------------------\n")
     os.popen('Start cmd /k "python manage.py migrate"')
     time.sleep(5)
-    os.popen('Start cmd /k "python manage.py runserver"')
-    time.sleep(5)
-    webbrowser.open_new_tab("http://127.0.0.1:8000/")
-
+    startingPort = input("Enter the port number: ")
+    if startingPort == None:
+        print("You did not enter a port number, so opening on default port 8000")
+        os.popen('Start cmd /k "python manage.py runserver"')
+        time.sleep(5)
+        webbrowser.open_new_tab("http://127.0.0.1:8000/")
+    else:
+        print(f"Starting Server on {startingPort} Port...")
+        os.popen(f'Start cmd /k "python manage.py runserver 127.0.0.1:{startingPort}"')
+        time.sleep(5)
+        webbrowser.open_new_tab(f"http://127.0.0.1:{startingPort}/")
     while True:
         for app_name in apps_name:
             # os.chdir('../')
@@ -196,6 +203,7 @@ if choice == 1:
             #     break
             # else:
             # Capturing the two instances models.py after certain interval of time
+            # time.sleep(5)
             print("Looking for changes in " + app_name.capitalize() + " models.py\nPress 'CTRL + C' to stop the program")
             print("\nIf anything goes wrong, restart the development server\n")
             with open(app_name.capitalize() + '/models.py', 'r+') as app_models_file:
@@ -223,6 +231,17 @@ elif choice == 2:
     project_name = str(input("Whats your project name : ")).capitalize()
     apps_name = str(input("What your apps name : ")).split(",")
     os.chdir(project_name)
+    startingPort = input("Enter the port number: ")
+    if startingPort == None:
+        print("You did not enter a port number, so opening on default port 8000")
+        os.popen('Start cmd /k "python manage.py runserver"')
+        time.sleep(5)
+        webbrowser.open_new_tab("http://127.0.0.1:8000/")
+    else:
+        print(f"Starting Server on {startingPort} Port...")
+        os.popen(f'Start cmd /k "python manage.py runserver 127.0.0.1:{startingPort}"')
+        time.sleep(5)
+        webbrowser.open_new_tab(f"http://127.0.0.1:{startingPort}/")
     while True:
         for app_name in apps_name:
             # os.chdir('../')
