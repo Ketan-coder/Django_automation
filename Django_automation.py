@@ -1,17 +1,17 @@
 """ This python file helps to make full flushed Django Project, Django Apps, static and templates directories."""
 choice = int(input("1 -> Creating a new project\n2 -> Looking for changes in models.py\n"))
+import argparse
 import os
 os.system('cmd /c python -m pip install django webbrowser')
 import webbrowser
 import time
 from sys import platform
 
-if choice == 1:
+def create_project():
     print("Please do not use space in your project/app name at the end!")
     project_name = str(input("Whats your project name : ")).capitalize()
     apps_name = str(input("What your apps name : ")).split(",")
     want_env = str(input("Do you want to create a virtual environment? (y/n) : ")).capitalize()
-
 
     # check if the project name is in the current directory
     if os.path.isdir(project_name):
@@ -89,10 +89,12 @@ if choice == 1:
                             os.system('cmd /c "activate.bat"')
                         #--------------------------------------------------
                         os.system('cmd /c "pip install django"')
+                        os.system('cmd /c "pip install djangorestframework"')
                         os.system('cmd /c "pip install Pillow"')
                         os.chdir("../../")
                     elif want_env == "N":
                         os.system('cmd /c "pip install django"')
+                        os.system('cmd /c "pip install djangorestframework"')
                         os.system('cmd /c "pip install Pillow"')
                     else:
                         print("Worng Command",end="\n")
@@ -227,7 +229,7 @@ if choice == 1:
                     pass
                 else:
                     print("Invalid input")
-elif choice == 2:
+def check_models():
     project_name = str(input("Whats your project name : ")).capitalize()
     apps_name = str(input("What your apps name : ")).split(",")
     os.chdir(project_name)
@@ -272,3 +274,19 @@ elif choice == 2:
                     pass
                 else:
                     print("Invalid input")
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Automate Django project creation and management.')
+    parser.add_argument('choice', type=int, help='1 -> Creating a new project, 2 -> Looking for changes in models.py')
+    args = parser.parse_args()
+
+    if args.choice == 1:
+        create_project()
+    elif args.choice == 2:
+        check_models()
+    else:
+        print("Invalid choice.")
+
+if __name__ == "__main__":
+    main()
